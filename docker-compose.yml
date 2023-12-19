@@ -1,0 +1,29 @@
+version: '1.0'
+
+services:
+  database:
+    container_name: my-own-mysql
+    image: mysql:8.2.0
+    environment:
+      - "MYSQL_ROOT_PASSWORD=mypass123"
+    volumes:
+      - ./sql-scripts:/docker-entrypoint-initdb.d
+  phpmyadmin:
+    container_name: my-own-phpmyadmin
+    image: phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      - "MYSQL__ROOT_PASSWORD=mypass123"
+      - "PMA_HOST=my-own-mysql"
+  myapi:
+      container_name: my-api
+      build: .
+      ports:
+        - "8555:80"
+      environment:
+        - "MYSQL_HOST=my-own-mysql"
+        - "MYSQL_PORT=3306"
+        - "MYSQL_USER=root"
+        - "MYSQL_PASSWORD=mypass123"
+        - "MYSQL_DB=mysql"
