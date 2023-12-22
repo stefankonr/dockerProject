@@ -20,7 +20,7 @@ services:
       - "PMA_HOST=project-db"
   myapi:
       container_name: my-api
-      build: .
+      build: ./api-app
       ports:
         - "8555:80"
       environment:
