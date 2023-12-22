@@ -2,8 +2,10 @@ version: '1.0'
 
 services:
   database:
-    container_name: my-own-mysql
+    container_name: project-db
     image: mysql:8.2.0
+    ports:
+      - "3306:3306"
     environment:
       - "MYSQL_ROOT_PASSWORD=mypass123"
     volumes:
@@ -15,15 +17,15 @@ services:
       - "8081:80"
     environment:
       - "MYSQL__ROOT_PASSWORD=mypass123"
-      - "PMA_HOST=my-own-mysql"
+      - "PMA_HOST=project-db"
   myapi:
       container_name: my-api
       build: .
       ports:
         - "8555:80"
       environment:
-        - "MYSQL_HOST=my-own-mysql"
+        - "MYSQL_HOST=project-db"
         - "MYSQL_PORT=3306"
         - "MYSQL_USER=root"
         - "MYSQL_PASSWORD=mypass123"
-        - "MYSQL_DB=mysql"
+        - "MYSQL_DB=mydb"
