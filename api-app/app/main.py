@@ -38,12 +38,19 @@ async def create_user(user: UserBase, db: db_dependency):
 
 
 @app.get("/users/{user_id}", status_code=status.HTTP_200_OK)
-async def read_user(user_id: int, db: db_dependency):
+async def get_user(user_id: int, db: db_dependency):
     user = db.query(models.User).filter(models.User.id == user_id).first()
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
+
+@app.get("/users", status_code=status.HTTP_200_OK)
+async def get_all_users(db: db_dependency):
+    users = db.query(models.User).all()
+    if not users:
+        raise HTTPException(status_code=404, detail="No users found")
+    return users
 
 @app.get("/users/by_username/{username}", status_code=status.HTTP_200_OK)
 async def get_user_by_username(username: str, db: db_dependency):
@@ -74,3 +81,14 @@ async def delete_post(post_id: int, db: db_dependency):
     if db_post is None:
         raise HTTPException(status_code=404, detail='Post was not found')
     db.delete(db_post)
+
+
+@app.get("/users/posts/{username}", status_code=status.HTTP_200_OK)
+async def get_user_posts_by_username(username: str, db: db_dependency):
+    user = db.query(models.User).filter(models.User.username == username).first()
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    user_posts = db.query(models.Post).filter(models.Post.user_id == user.id).all()
+    return user_posts
+
