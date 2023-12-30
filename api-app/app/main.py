@@ -1,11 +1,25 @@
 from fastapi import FastAPI, Depends, status, HTTPException
 from pydantic import BaseModel
 from typing import Annotated
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 import models
 from database import engine, SessionLocal
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+# Ustawienie CORS aby umożliwić połączenia do api z poza własnej domeny.
+origins = ["http://localhost:8888"]  # informacja o połączeniu przychodzi z przeglądarki. 
+                                     #dla przeglądarki adres frontenda to localhost:8888 i taki jest właściwy origins
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 models.Base.metadata.create_all(bind=engine)
 
 
@@ -92,3 +106,24 @@ async def get_user_posts_by_username(username: str, db: db_dependency):
     user_posts = db.query(models.Post).filter(models.Post.user_id == user.id).all()
     return user_posts
 
+
+@app.get("/posts-with-authors", status_code=status.HTTP_200_OK)
+async def get_posts_with_authors(db: db_dependency):
+    posts_with_authors = (
+        db.query(models.Post).options(joinedload(models.Post.user)).all()
+    )
+
+    if not posts_with_authors:
+        raise HTTPException(status_code=404, detail="No posts found")
+
+    posts_with_author_info = []
+    for post in posts_with_authors:
+        post_data = {
+            "post_id": post.id,
+            "title" : post.title,
+            "content": post.content,
+            "author": post.user.username,
+            }
+        posts_with_author_info.append(post_data)
+
+    return posts_with_author_info

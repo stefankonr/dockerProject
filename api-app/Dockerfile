@@ -12,4 +12,4 @@ COPY ./app /code
 
 ENV PYTHONPATH "${PYTHONPATH}:/code/app/"
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8081"]

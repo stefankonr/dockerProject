@@ -4,8 +4,6 @@ services:
   database:
     container_name: project-db
     image: mysql:8.2.0
-    ports:
-      - "3306:3306"
     environment:
       - "MYSQL_ROOT_PASSWORD=mypass123"
     volumes:
@@ -20,12 +18,18 @@ services:
       - "PMA_HOST=project-db"
   myapi:
       container_name: my-api
+      restart: unless-stopped
       build: ./api-app
       ports:
-        - "8555:80"
+        - "8555:8081"
       environment:
         - "MYSQL_HOST=project-db"
         - "MYSQL_PORT=3306"
         - "MYSQL_USER=root"
         - "MYSQL_PASSWORD=mypass123"
         - "MYSQL_DB=mydb"
+  frontend-node:
+    container_name: "frontend"
+    build: ./front-app
+    ports:
+      - "8888:5173"
