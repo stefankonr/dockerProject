@@ -12,15 +12,24 @@ const App = () => {
   }, []);
 
   const fetchUsers = () => {
-    // Fetch all users
-    fetch('http://localhost:8555/users')
-      .then(response => response.json())
-      .then(data => {
-        console.log('Fetched users:', data);
-        setUsers(data);
-      })
-      .catch(error => console.error('Error fetching users:', error));
-  };
+  // Fetch all users
+  fetch('http://localhost:8555/users')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Error fetching users: ${response.statusText}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Fetched users:', data);
+      setUsers(data);
+    })
+    .catch(error => {
+      console.error(error.message);
+      // Handle the error as needed, for example, set an empty array for users
+      setUsers([]);
+    });
+};
 
   const handleUserChange = (event) => {
     setNewUser({ ...newUser, [event.target.name]: event.target.value });
