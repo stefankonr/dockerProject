@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f72000b0-3ffc-445b-ba8a-3ec57e48da07" name="Changes" comment="drobny fix frontend. teraz działa przy pustej bazie użytkowników">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-app/app/src/App — kopia.jsx.origin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-app/app/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-app/app/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-app/app/src/UserPosts.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-app/app/src/UserSelection.jsx" beforeDir="false" />
-    </list>
+    <list default="true" id="f72000b0-3ffc-445b-ba8a-3ec57e48da07" name="Changes" comment="zwiększona wielkość posta do 500 znakó w modelu." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -146,7 +139,31 @@
       <option name="project" value="LOCAL" />
       <updated>1703959309929</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="docker-compose ma volume z kodem dla frontend w celach developerskich.">
+      <option name="closed" value="true" />
+      <created>1704311602083</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1704311602083</updated>
+    </task>
+    <task id="LOCAL-00009" summary="przerobiony frontend, działa. wymaga wiecej kosmetyki wyglądu.">
+      <option name="closed" value="true" />
+      <created>1704311662086</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1704311662086</updated>
+    </task>
+    <task id="LOCAL-00010" summary="zwiększona wielkość posta do 500 znakó w modelu.">
+      <option name="closed" value="true" />
+      <created>1704311675937</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1704311675937</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -175,6 +192,9 @@
     <MESSAGE value="nowe api" />
     <MESSAGE value="basic frontend, działa. poprawki do API po zrobieniu frontend." />
     <MESSAGE value="drobny fix frontend. teraz działa przy pustej bazie użytkowników" />
-    <option name="LAST_COMMIT_MESSAGE" value="drobny fix frontend. teraz działa przy pustej bazie użytkowników" />
+    <MESSAGE value="docker-compose ma volume z kodem dla frontend w celach developerskich." />
+    <MESSAGE value="przerobiony frontend, działa. wymaga wiecej kosmetyki wyglądu." />
+    <MESSAGE value="zwiększona wielkość posta do 500 znakó w modelu." />
+    <option name="LAST_COMMIT_MESSAGE" value="zwiększona wielkość posta do 500 znakó w modelu." />
   </component>
 </project>
