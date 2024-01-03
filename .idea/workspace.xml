@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f72000b0-3ffc-445b-ba8a-3ec57e48da07" name="Changes" comment="nowe api">
+    <list default="true" id="f72000b0-3ffc-445b-ba8a-3ec57e48da07" name="Changes" comment="drobny fix frontend. teraz działa przy pustej bazie użytkowników">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-app/app/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/api-app/app/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-app/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/api-app/app/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-app/app/src/App — kopia.jsx.origin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-app/app/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-app/app/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-app/app/src/UserPosts.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-app/app/src/UserSelection.jsx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,7 +130,23 @@
       <option name="project" value="LOCAL" />
       <updated>1703359537323</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="basic frontend, działa. poprawki do API po zrobieniu frontend.">
+      <option name="closed" value="true" />
+      <created>1703953927707</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1703953927707</updated>
+    </task>
+    <task id="LOCAL-00007" summary="drobny fix frontend. teraz działa przy pustej bazie użytkowników">
+      <option name="closed" value="true" />
+      <created>1703959309929</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1703959309929</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -155,6 +173,8 @@
     <MESSAGE value="nowe api:users (by_username),  posts (post, get, delete)" />
     <MESSAGE value="zmiana struktury katalogów i dockerfile pod całościowy projekt." />
     <MESSAGE value="nowe api" />
-    <option name="LAST_COMMIT_MESSAGE" value="nowe api" />
+    <MESSAGE value="basic frontend, działa. poprawki do API po zrobieniu frontend." />
+    <MESSAGE value="drobny fix frontend. teraz działa przy pustej bazie użytkowników" />
+    <option name="LAST_COMMIT_MESSAGE" value="drobny fix frontend. teraz działa przy pustej bazie użytkowników" />
   </component>
 </project>

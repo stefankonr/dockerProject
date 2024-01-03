@@ -1,133 +1,189 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const App = () => {
-  const [users, setUsers] = useState([]);
-  const [newUser, setNewUser] = useState({ username: '' }); //stan dodawania nowego użytkownika
-  const [newPost, setNewPost] = useState({ title: '', content: '', user_id: '' }); //stan do tworzenia nowego posta
-  const [selectedUser, setSelectedUser] = useState([]); //stan do przechowywania wybranego użytkownika
+    const [user, setUser] = useState('');  //stan użyty do dodawania nowego użytkownika
+    const [userData, setUserData] = useState(null); //dane aktualnego użytkownika
+    const [error, setError] = useState(null);
+    const [page, setPage] = useState(1); //stan do śledzenia aktualnej strony
+    const [userPosts, setUserPosts] = useState([]); //stan przechowywania postów użytkownika
+    const [newPost, setNewPost] = useState({ title: '', content: '', user_id: '' }); //stan przechowania nowego posta do dodania
 
-  useEffect(() => {
-    // Fetch all users on component mount
-    fetchUsers();
-  }, []);
+    const handleUserChange
+        = (event) => {
+        setUser(event.target.value);
+        setNewPost({ ...newPost, user_id: user.user_id });
+        
+    };
 
-  const fetchUsers = () => {
-  // Fetch all users
-  fetch('http://localhost:8555/users')
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`Error fetching users: ${response.statusText}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Fetched users:', data);
-      setUsers(data);
-    })
-    .catch(error => {
-      console.error(error.message);
-      // Handle the error as needed, for example, set an empty array for users
-      setUsers([]);
-    });
-};
+    const handleAddUser = async () => {
+        try {
+            const response = await fetch('http://localhost:8555/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username: user }),
+            });
 
-  const handleUserChange = (event) => {
-    setNewUser({ ...newUser, [event.target.name]: event.target.value });
-  };
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
 
-  const handleAddUser = (event) => {
-    event.preventDefault();
+            const data = await response.json();
+            console.log('User added successfully:', data);
 
-    // Add a new user
-    fetch('http://localhost:8555/users', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newUser),
-    })
-      .then(response => response.json())
-      .then(data => {
-        setUsers([...users, data]);
-        // Clear the input field after adding a user
-        setNewUser({ username: '' });
-      })
-      .catch(error => console.error('Error creating user:', error));
-  };
+            setUserData(data);
+        } catch (error) {
+            console.error('Error creating user:', error);
+        }
+    };
 
-  const handleDisplayUsers = () => {
-    // Fetch all users again (refresh the list)
-    fetchUsers();
-  };
+    async function fetchUserData() {
+        try {
+            const response = await fetch(`http://localhost:8555/users/by_username/${user}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
 
-  const handleAddPost = (event) => {
-    event.preventDefault();
+            const data = await response.json();
+            console.log('Fetched user data:', data);
+            setUserData(data);
+        } catch (error) {
+            console.error('Error fetching user data:', error.message);
+        }
+    }
 
-    const postUserId = selectedUser ? selectedUser.id : '';
-    // Add a new post
-    fetch('http://localhost:8555/posts', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ ...newPost, user_id: postUserId }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        // Dodajemy nowy post do listy postów
-        // Możesz dostosować tę część w zależności od tego, jak chcesz zaktualizować listę postów
-        console.log('Post added successfully:', data);
-      })
-      .catch(error => console.error('Error creating post:', error));
-  };
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        fetchUserData();
+    };
 
-  return (
-    <div>
-      <button onClick={handleDisplayUsers}>Display Users</button>
-      <ul>
-        {users && users.map(user => (
-          <li key={user && user.id}>{user && user.username}</li>
-        ))}
-      </ul>
+    const handleDisplayCurrentUser = () => {
+        if (userData) {
+        alert(`Current User: ${userData.username}`);
+        } else {
+        alert('No user data available.');
+        }
+    };
 
-      {/* Formularz do dodawania nowego użytkownika */}
-      <form onSubmit={handleAddUser}>
-        <label>
-          Username:
-          <input type="text" name="username" value={newUser.username} onChange={handleUserChange} />
-        </label>
-        <button type="submit">Add User</button>
-      </form>
+    async function fetchUserPosts() {
+        try {
+            const postsResponse = await fetch(`http://localhost:8555/users/posts/${userData.username}`);
+            if (postsResponse.ok) {
+                const postsData = await postsResponse.json();
+                console.log('Fetched user posts:', postsData);
+                setUserPosts(postsData);
+            } else {
+                console.warn('No posts available for the user.');
+                setUserPosts([]);
+            }
+        } catch (error) {
+            console.error('Error fetching user posts:', error);
+        }
+    }
 
-      {/* Formularz do dodawania nowego posta */}
-      <form onSubmit={handleAddPost}>
-        <label>
-          Title:
-          <input type="text" name="title" value={newPost.title} onChange={(e) => setNewPost({ ...newPost, title: e.target.value })} />
-        </label>
-        <br />
-        <label>
-          Content:
-          <textarea name="content" value={newPost.content} onChange={(e) => setNewPost({ ...newPost, content: e.target.value })} />
-        </label>
-        <br />
-        {/* Dodaj przycisk do wyboru istniejącego użytkownika */}
-        <label>
-          Choose Existing User:
-          <select value={selectedUser ? selectedUser.username : ''} onChange={(e) => setSelectedUser(users.find(user => user.username === e.target.value))}>
-            <option value="">-- Choose User --</option>
-            {users && users.map(user => (
-              <option key={user.id} value={user.username}>
-                {user.username}
-              </option>
-            ))}
-          </select>
-        </label>
-        <br />
-        <button type="submit">Add Post</button>
-      </form>
-    </div>
-  );
+    const handlePageChange = () => {
+        setPage(2);
+        fetchUserPosts();
+    };
+
+    const handleAddPost = async (event) => {
+        event.preventDefault();
+        const postUserId = userData ? userData.user_id : '';
+
+        try {
+            const response = await fetch('http://localhost:8555/posts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ ...newPost, user_id: postUserId }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Added new post:', data);
+
+            // Po dodaniu nowego posta, pobieram aktualne posty
+            fetchUserPosts();
+        } catch (error) {
+            console.error('Error adding new post:', error.message);
+        }
+    };
+
+
+
+    const handleTitleChange = (event) => {
+        setNewPost({ ...newPost, title: event.target.value });
+    };
+
+    const handleContentChange = (event) => {
+        setNewPost({ ...newPost, content: event.target.value });
+    };
+
+    return (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}> 
+        {page === 1 ? (
+            <div style={{ width: '300px', textAlign: 'center', margin: 'auto' }}>
+            <form onSubmit={handleAddUser}>
+                <label>
+                    Username:
+                    <input type="text" name="username" value={user} onChange={handleUserChange} />
+                </label>
+                <button type="submit">Dodaj użytkownika</button>
+            </form>
+            <h1>Dane zalogowanego użytkownika</h1>
+            <form onSubmit={handleSubmit}>
+                <label>
+                Wprowadź nazwę:
+                <input type="text" value={user} onChange={handleUserChange} />
+                </label>
+                <button type="submit">Zaloguj</button>
+            </form>
+            {error && <p>Error: {error}</p>}
+            {userData && (
+                <div>
+                <p>User ID: {userData.user_id}</p>
+                <p>Username: {userData.username}</p>
+                </div>
+            )}
+            <button onClick={handlePageChange}>Przejdź na drugą stronę</button>
+            </div>
+        ) : (
+            <div style={{ width: '600px', textAlign: 'center', margin: 'auto' }}>
+            {userData && (
+                <div style={{ position: 'absolute', top: '10px', right: '100px' }}>
+                    <p>Witaj <span style={{ fontWeight: 'bold' }}>{userData.username}</span></p>
+                </div>
+            )}
+            <form onSubmit={handleAddPost}>
+                <label>
+                    Tytuł :
+                    <input type="text" name="title" value={newPost.title} onChange={handleTitleChange} maxLength={50} style={{ width: '100%' }} />
+                </label>
+                <label>
+                    Treść:
+                    <textarea name="content" value={newPost.content} onChange={handleContentChange} maxLength={500} style={{ width: '100%', height: '100px' }} />
+                </label>
+                <button type="submit">Dodaj notatkę</button>
+            </form>
+            <h2>Moje notatki</h2>
+            <ul style={{ listStyle: 'none', padding: 0 }}>
+                {userPosts.map((post) => (
+                    <li key={post.id} style={{ marginBottom: '20px', borderBottom: '1px solid #ccc', paddingBottom: '10px' }}>
+                        <h3 style={{ fontWeight: 'bold', marginBottom: '5px' }}>{post.title}</h3>
+                        <p>{post.content}</p>
+                    </li>
+                ))}
+            </ul>
+            <button onClick={handleDisplayCurrentUser}>Pokaż użytkownika</button>
+        </div>
+        )}
+        </div>
+    );
 };
 
 export default App;
