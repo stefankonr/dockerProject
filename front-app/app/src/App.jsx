@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const App = () => {
     const [user, setUser] = useState('');  //stan użyty do dodawania nowego użytkownika
@@ -10,13 +10,12 @@ const App = () => {
 
     const handleUserChange
         = (event) => {
-        setUser(event.target.value);
-        setNewPost({ ...newPost, user_id: user.user_id });
-        
+        setUser(event.target.value); 
     };
 
     const handleAddUser = async () => {
         try {
+            console.log('Przed zapytaniem fetch - debug adduser nie działa w firefox');
             const response = await fetch('http://localhost:8555/users', {
                 method: 'POST',
                 headers: {
@@ -24,16 +23,16 @@ const App = () => {
                 },
                 body: JSON.stringify({ username: user }),
             });
-
+            console.log('Po zapytaniu fetch - debug adduser nie działa w firefox');
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
             const data = await response.json();
             console.log('User added successfully:', data);
-
             setUserData(data);
         } catch (error) {
+            setError(error.message);
             console.error('Error creating user:', error);
         }
     };
@@ -49,43 +48,57 @@ const App = () => {
             console.log('Fetched user data:', data);
             setUserData(data);
         } catch (error) {
+            setError(error.message);
             console.error('Error fetching user data:', error.message);
         }
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmitUser = async (event) => {
         event.preventDefault();
-        fetchUserData();
+        await fetchUserData();
+        setPage(4);
     };
 
-    const handleDisplayCurrentUser = () => {
-        if (userData) {
-        alert(`Current User: ${userData.username}`);
-        } else {
-        alert('No user data available.');
-        }
-    };
-
-    async function fetchUserPosts() {
+    const updateUserPosts = async () => {
         try {
-            const postsResponse = await fetch(`http://localhost:8555/users/posts/${userData.username}`);
-            if (postsResponse.ok) {
+            if (userData) {
+                const postsResponse = await fetch(`http://localhost:8555/users/posts/${userData.username}`);
+                if (postsResponse.ok) {
                 const postsData = await postsResponse.json();
-                console.log('Fetched user posts:', postsData);
                 setUserPosts(postsData);
-            } else {
+                } else {
                 console.warn('No posts available for the user.');
                 setUserPosts([]);
+                }
             }
-        } catch (error) {
+            } catch (error) {
             console.error('Error fetching user posts:', error);
-        }
-    }
+            }
+        };
 
-    const handlePageChange = () => {
-        setPage(2);
+
+    useEffect(() => {
+        const fetchUserPosts = async () => {
+            try {
+                if (userData) {
+                const postsResponse = await fetch(`http://localhost:8555/users/posts/${userData.username}`);
+                if (postsResponse.ok) {
+                    const postsData = await postsResponse.json();
+                    setUserPosts(postsData);
+                } else {
+                    console.warn('No posts available for the user.');
+                    setUserPosts([]);
+                }
+                }
+            } catch (error) {
+                console.error('Error fetching user posts:', error);
+            }
+        };
+    
         fetchUserPosts();
-    };
+    
+        }, [userData]);
+
 
     const handleAddPost = async (event) => {
         event.preventDefault();
@@ -108,7 +121,8 @@ const App = () => {
             console.log('Added new post:', data);
 
             // Po dodaniu nowego posta, pobieram aktualne posty
-            fetchUserPosts();
+            await updateUserPosts();
+            setNewPost({ title: '', content: '', user_id: '' });
         } catch (error) {
             console.error('Error adding new post:', error.message);
         }
@@ -126,17 +140,33 @@ const App = () => {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}> 
-        {page === 1 ? (
+        {page === 1 && (
+            <div style={{ textAlign: 'center', marginTop: '20px' }}>
+                <p>Witaj w notatniku w chmurze</p>
+                <button onClick={() => setPage(2)}>Załóż konto</button>
+                <button onClick={() => setPage(3)}>Zaloguj</button>
+            </div>
+
+        )}
+        {page === 2 && (
             <div style={{ width: '300px', textAlign: 'center', margin: 'auto' }}>
-            <form onSubmit={handleAddUser}>
+            <form onSubmit={async (event) => {
+                event.preventDefault();
+                await handleAddUser();
+                fetchUserData(user);
+                setPage(4);
+                }}>
                 <label>
                     Username:
                     <input type="text" name="username" value={user} onChange={handleUserChange} />
                 </label>
                 <button type="submit">Dodaj użytkownika</button>
             </form>
-            <h1>Dane zalogowanego użytkownika</h1>
-            <form onSubmit={handleSubmit}>
+            </div>
+        )}
+        {page === 3 && (
+            <div>
+            <form onSubmit={handleSubmitUser}>
                 <label>
                 Wprowadź nazwę:
                 <input type="text" value={user} onChange={handleUserChange} />
@@ -144,15 +174,9 @@ const App = () => {
                 <button type="submit">Zaloguj</button>
             </form>
             {error && <p>Error: {error}</p>}
-            {userData && (
-                <div>
-                <p>User ID: {userData.user_id}</p>
-                <p>Username: {userData.username}</p>
-                </div>
-            )}
-            <button onClick={handlePageChange}>Przejdź na drugą stronę</button>
             </div>
-        ) : (
+        )}
+        {page === 4 && (
             <div style={{ width: '600px', textAlign: 'center', margin: 'auto' }}>
             {userData && (
                 <div style={{ position: 'absolute', top: '10px', right: '100px' }}>
@@ -179,7 +203,6 @@ const App = () => {
                     </li>
                 ))}
             </ul>
-            <button onClick={handleDisplayCurrentUser}>Pokaż użytkownika</button>
         </div>
         )}
         </div>

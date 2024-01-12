@@ -9,8 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 # Ustawienie CORS aby umożliwić połączenia do api z poza własnej domeny.
-origins = ["http://localhost:8888"]  # informacja o połączeniu przychodzi z przeglądarki. 
-                                     #dla przeglądarki adres frontenda to localhost:8888 i taki jest właściwy origins
+origins = ["http://localhost:8888"]  # adres frontend widoczny dla przeglądarki użytkownika
 
 app.add_middleware(
     CORSMiddleware,
