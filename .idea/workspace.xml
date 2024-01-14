@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f72000b0-3ffc-445b-ba8a-3ec57e48da07" name="Changes" comment="" />
+    <list default="true" id="f72000b0-3ffc-445b-ba8a-3ec57e48da07" name="Changes" comment="nowa wersja, do sprawdzenia i poprawek">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-app/app/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/api-app/app/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -171,7 +175,31 @@
       <option name="project" value="LOCAL" />
       <updated>1704311770915</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="różne drobne poprawki">
+      <option name="closed" value="true" />
+      <created>1705059926590</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1705059926590</updated>
+    </task>
+    <task id="LOCAL-00013" summary="różne drobne poprawki">
+      <option name="closed" value="true" />
+      <created>1705061927541</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1705061927541</updated>
+    </task>
+    <task id="LOCAL-00014" summary="nowa wersja, do sprawdzenia i poprawek">
+      <option name="closed" value="true" />
+      <created>1705229382380</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1705229382380</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -183,6 +211,17 @@
               <option name="CUSTOM_BOOLEAN_PROPERTIES">
                 <map>
                   <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
                 </map>
               </option>
             </State>
@@ -203,6 +242,18 @@
     <MESSAGE value="docker-compose ma volume z kodem dla frontend w celach developerskich." />
     <MESSAGE value="przerobiony frontend, działa. wymaga wiecej kosmetyki wyglądu." />
     <MESSAGE value="zwiększona wielkość posta do 500 znakó w modelu." />
-    <option name="LAST_COMMIT_MESSAGE" value="zwiększona wielkość posta do 500 znakó w modelu." />
+    <MESSAGE value="różne drobne poprawki" />
+    <MESSAGE value="nowa wersja, do sprawdzenia i poprawek" />
+    <option name="LAST_COMMIT_MESSAGE" value="nowa wersja, do sprawdzenia i poprawek" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/api-app/app/database.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
