@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
 const App = () => {
-    const [user, setUser] = useState('');  //stan użyty do dodawania nowego użytkownika
+    const [user, setUser] = useState('');  //stan do handlera UserSubmit
     const [userData, setUserData] = useState(null); //dane aktualnego użytkownika
     const [error, setError] = useState(null);
     const [page, setPage] = useState(1); //stan do śledzenia aktualnej strony
     const [userPosts, setUserPosts] = useState([]); //stan przechowywania postów użytkownika
     const [newPost, setNewPost] = useState({ title: '', content: '', user_id: '' }); //stan przechowania nowego posta do dodania
 
-    const handleUserChange
+    const handleUserSubmit //obsługa wprowadzania danych użytkownika przu logowaniu lub dodawaniu nowego
         = (event) => {
         setUser(event.target.value); 
     };
@@ -26,18 +26,17 @@ const App = () => {
             console.log('Po zapytaniu fetch - debug adduser nie działa w firefox');
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
+            } else {
+                const data = await response.json();
+                console.log('User added successfully:', data);
             }
-
-            const data = await response.json();
-            console.log('User added successfully:', data);
-            setUserData(data);
         } catch (error) {
             setError(error.message);
             console.error('Error creating user:', error);
         }
     };
 
-    async function fetchUserData() {
+    const fetchUserData = async () => {
         try {
             const response = await fetch(`http://localhost:8555/users/by_username/${user}`);
             if (!response.ok) {
@@ -45,18 +44,24 @@ const App = () => {
             }
 
             const data = await response.json();
-            console.log('Fetched user data:', data);
             setUserData(data);
+            console.log('Fetched user data:', data);
+            
         } catch (error) {
             setError(error.message);
             console.error('Error fetching user data:', error.message);
         }
     }
 
-    const handleSubmitUser = async (event) => {
+    const handleUserLogin = async (event) => {
         event.preventDefault();
         await fetchUserData();
-        setPage(4);
+        if (userData && userData.username) {
+            setPage(4);
+        } else {
+            alert(`Błąd logowania: ${user}`); 
+        }
+        
     };
 
     const updateUserPosts = async () => {
@@ -153,12 +158,11 @@ const App = () => {
             <form onSubmit={async (event) => {
                 event.preventDefault();
                 await handleAddUser();
-                fetchUserData(user);
-                setPage(4);
+                handleUserLogin();
                 }}>
                 <label>
                     Username:
-                    <input type="text" name="username" value={user} onChange={handleUserChange} />
+                    <input type="text" name="username" value={user} onChange={handleUserSubmit} />
                 </label>
                 <button type="submit">Dodaj użytkownika</button>
             </form>
@@ -166,10 +170,10 @@ const App = () => {
         )}
         {page === 3 && (
             <div>
-            <form onSubmit={handleSubmitUser}>
+            <form onSubmit={handleUserLogin}>
                 <label>
                 Wprowadź nazwę:
-                <input type="text" value={user} onChange={handleUserChange} />
+                <input type="text" value={user} onChange={handleUserSubmit} />
                 </label>
                 <button type="submit">Zaloguj</button>
             </form>
