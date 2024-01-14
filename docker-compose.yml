@@ -33,5 +33,3 @@ services:
     build: ./front-app
     ports:
       - "8888:5174"
-    volumes:
-      - ./front-app/app/src:/home/node/app/src
