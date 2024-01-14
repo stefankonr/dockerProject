@@ -36,7 +36,8 @@ const App = () => {
         if (login ) {
             navigate('/notepad')
         } else {
-            alert(`Błąd logowania: ${user}`); 
+            alert(`Błąd logowania: ${user}`);
+            navigate('/')
         }
         
     };

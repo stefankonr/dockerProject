@@ -25,7 +25,7 @@ const App = () => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        sessionStorage.clear
+        sessionStorage.clear()
         navigate('/')
     };
 

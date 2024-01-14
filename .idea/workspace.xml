@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f72000b0-3ffc-445b-ba8a-3ec57e48da07" name="Changes" comment="prządek w kodzie, poprawki błędów,">
-      <change afterPath="$PROJECT_DIR$/front-app/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-app/app/src/pages/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-app/app/src/pages/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-app/app/src/pages/Notepad.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-app/app/src/pages/Notepad.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -223,7 +223,23 @@
       <option name="project" value="LOCAL" />
       <updated>1705243363383</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="prządek w kodzie, poprawki błędów,">
+      <option name="closed" value="true" />
+      <created>1705243377205</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1705243377205</updated>
+    </task>
+    <task id="LOCAL-00019" summary="prządek w kodzie, poprawki błędów,">
+      <option name="closed" value="true" />
+      <created>1705244797690</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1705244797690</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
