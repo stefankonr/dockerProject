@@ -85,7 +85,7 @@ const App = () => {
 
     useEffect(() => {
         updatePosts()
-    }, [userData, updatePosts]
+    }, [userData, setNewPost]
     )
 
     return (
